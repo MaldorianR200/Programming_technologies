@@ -1,19 +1,18 @@
-#include "Vector.h"
-
-// 2.12 Дана разреженная матрица СSC. Найти её определитель. 
+#include "CSCMatrix.h"
 
 
+//////////////////////////////////// 2.12 The sparse matrix SC is given. Find its determinant.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 double determinant(vector<vector<double>>& matrix) {
     int n = matrix.size();
     double det = 0.0;
 
-    // Базовый случай - матрица 2x2
+    // The base case is a 2x2 matrix
     if (n == 2) {
         det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
     }
     else {
-        // Рекурсивно вычисляем определитель для матрицы размером (n-1)x(n-1)
+        // Recursively calculate the determinant for a matrix of size (n-1)x(n-1)
         for (int j = 0; j < n; j++) {
             vector<vector<double>> subMatrix(n - 1, vector<double>(n - 1));
             for (int row = 1; row < n; row++) {
@@ -24,21 +23,21 @@ double determinant(vector<vector<double>>& matrix) {
                     }
                 }
             }
-            det += matrix[0][j] * determinant(subMatrix) * (j % 2 == 0 ? 1 : -1); // Алгебраическое дополнение
+            det += matrix[0][j] * determinant(subMatrix) * (j % 2 == 0 ? 1 : -1); // Algebraic complement
         }
     }
 
     return det;
 }
-// Функция для распаковки матрицы формата CSC
+// // Function for unpacking a CSV format matrix
 vector<vector<double>> unpackCSCMatrix(int n, const vector<int>& col_ptr,
     const vector<int>& row_idx,
     const vector<double>& values) {
     vector<vector<double>> matrix(n, vector<double>(n, 0));
 
-    int nz = values.size();  // Количество ненулевых элементов
+    int nz = values.size();  // Number of non-zero elements
 
-    // Распаковка матрицы и заполнение значений
+    // Unpacking the matrix and filling in the values
     for (int j = 0; j < n; j++) {
         int col_start = col_ptr[j];
         int col_end = (j == n - 1) ? nz : col_ptr[j + 1];
@@ -56,19 +55,19 @@ vector<vector<double>> unpackCSCMatrix(int n, const vector<int>& col_ptr,
 
 
 
-/*
+
 int main() {
     setlocale(LC_ALL, "ru");
     int rows, cols, size;
     std::string str;
     
-    std::cout << "Введите количество строк матрицы: ";
+    std::cout << "Enter the number of rows of the matrix: ";
     do
     {
         std::cin >> str;
         if (!isNumber(str))
         {
-            std::cout << "Ошибка число < 0 или введено не число. Повторите попытку!" << std::endl;
+            std::cout << "Error number < 0 or not a number was entered. Try again!" << std::endl;
         }
         else
         {
@@ -79,13 +78,13 @@ int main() {
     
     
     
-    std::cout << "Введите количество столбцов матрицы: ";
+    std::cout << "Enter the number of columns of the matrix: ";
     do
     {
         std::cin >> str;
         if (!isNumber(str))
         {
-            std::cout << "Ошибка число < 0 или введено не число. Повторите попытку!" << std::endl;
+            std::cout << "Error number < 0 or not a number was entered. Try again!" << std::endl;
         }
         else
         {
@@ -95,13 +94,13 @@ int main() {
     
     cols = std::stoi(str);
     
-    std::cout << "Введите размер матрицы матрицы: ";
+    std::cout << "Enter the size of the matrix matrix: ";
     do
     {
         std::cin >> str;
         if (!isNumber(str))
         {
-            std::cout << "Ошибка число < 0 или введено не число. Повторите попытку!" << std::endl;
+            std::cout << "Error number < 0 or not a number was entered. Try again!" << std::endl;
         }
         else
         {
@@ -114,7 +113,7 @@ int main() {
 
     matrix.inputMatrix();
 
-    vector<vector<double>>m = unpackCSCMatrix(size, matrix.colPointers, matrix.rowIndexes, matrix.values);
+    vector<vector<double>>m = unpackCSCMatrix(size, matrix.getColPointers(), matrix.getRowIndexes(), matrix.getValues());
     for (int i = 0; i < size; ++i)
     {
         for (int j = 0; j < size; ++j)
@@ -123,56 +122,12 @@ int main() {
         }
         std::cout << "\n";
     }
-    std::cout << "Определитель: " << determinant(m);
+    std::cout << "Determinant: " << determinant(m);
     return 0;
 }
 
 
-*/
 
 
 
-/*
 
- // Структура для хранения матрицы формата CSC
-struct CSCMatrix {
-    int n; // Количество строк
-    int m; // Количество столбцов
-    std::vector<double> values; // Массив значений
-    std::vector<int> rowIndexes; // Массив индексов строк
-    std::vector<int> colPointers; // Массив индексов столбцов
-
-    // Конструктор
-    CSCMatrix(int rows, int cols) {
-        n = rows;
-        m = cols;
-        colPointers.resize(cols + 1, 0);
-    }
-
-    // Ввод значений матрицы
-    void inputMatrix() {
-        std::cout << "Введите количество ненулевых элементов: ";
-        int numNonZero;
-        std::cin >> numNonZero;
-
-        std::cout << "Введите значения ненулевых элементов:\n";
-        for (int i = 0; i < numNonZero; i++) {
-            double value;
-            int row, col;
-            std::cout << "ROW: "; std::cin >> row;
-            std::cout << "COL: "; std::cin >> col;
-            std::cout << "VALUE: "; std::cin >> value;
-
-
-            values.push_back(value);
-            rowIndexes.push_back(row - 1);
-            colPointers[col]++;
-        }
-
-        // Вычисление индексов столбцов
-        for (int i = 1; i <= m; i++) {
-            colPointers[i] += colPointers[i - 1];
-        }
-    }
-};
-*/

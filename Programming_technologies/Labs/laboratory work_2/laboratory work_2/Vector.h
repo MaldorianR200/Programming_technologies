@@ -1,5 +1,4 @@
 #include <iostream>
-#include "lib.h"
 #include <string>
 
 
@@ -33,9 +32,9 @@ public:
 
 	int n; // Количество строк
 	int m; // Количество столбцов
-	vector<double> values; // Массив значений
-	vector<int> rowIndexes; // Массив индексов строк
-	vector<int> colPointers; // Массив индексов столбцов
+	MyVector<double> values; // Массив значений
+	MyVector<int> rowIndexes; // Массив индексов строк
+	MyVector<int> colPointers; // Массив индексов столбцов
 
 	// Конструктор
 	CSCMatrix(int rows, int cols) {
@@ -138,10 +137,10 @@ public:
 		}
 	}
 
-	vector<vector<int>> unpackCSCMatrix(int n, const vector<int>& col_ptr,		// распаковка матрицы СSC
-		const vector<int>& row_idx,
-		const vector<int>& values) {
-		vector<vector<int>> matrix(n);
+	MyVector<MyVector<int>> unpackCSCMatrix(int n, const MyVector<int>& col_ptr,		// распаковка матрицы СSC
+		const MyVector<int>& row_idx,
+		const MyVector<int>& values) {
+		MyVector<MyVector<int>> matrix(n);
 
 		int nz = values.size();  // Количество ненулевых элементов
 
@@ -169,10 +168,7 @@ public:
 
 
 template<typename T>	// реализация шаблона для MyVector
-class vectorr
-{
-public:
-	vectorr();
+class MyVector
 	vectorr(int size);
 	vectorr(const vectorr& right);
 	~vectorr();
