@@ -81,12 +81,6 @@ public:
 		Node* temp = head;			
 		while (temp != nullptr)
 		{
-			if (!isValidComment(temp->data))
-			{
-				checkGlob = false;
-				std::cout << "Ошибка! Неверный формат комминатария!" << std::endl;
-				break;
-			}
 			std::cout << temp->data << std::endl;
 			temp = temp->next;
 		}
@@ -163,13 +157,13 @@ int main()
 	{
 		SetConsoleTextAttribute(hConsole, RED);
 		check = 0;
-		std::cout << "Ошибка! Файл для записи не открылся!" << std::endl;
+		std::cout << "Mistake! The file for recording did not open!" << std::endl;
 	}
 
-	// Если необходимо чтения данных из файла
+	// If it is necessary to read data from a file
 	/*
-	std::ifstream in("text_programm.txt");	// открываем файл для чтения
-	if (in.is_open())		// проверка файла
+	std::ifstream in("text_programm.txt");	// opening the file for reading
+	if (in.is_open())		// checking the file
 	{
 		while (std::getline(in, line))
 		{
@@ -179,34 +173,42 @@ int main()
 	else
 		{
 			check = 0;
-			std::cout << "Ошибка! Файл для записи не открылся!" << std::endl;
+			std::cout << "Mistake! The file for recording did not open!" << std::endl;
 			return 0;
 		}
 	in.close();		// закрываем файл
 	*/
 
 	
-	std::cout << "Введите код(выход из цикла позволяет сделать ключевое слово 'end'):" << std::endl;
+	std::cout << "Enter the code (exiting the loop allows you to make a keyword 'end'):" << std::endl;
 	SetConsoleTextAttribute(hConsole, YELLOW);
 	bool found = false;
-	while (true)
+	do
 	{
 		std::getline(std::cin, line);
-		
 		if (line == "end")
 		{
+			checkGlob = true;
 			break;
 		}
-		
-		out << line;
-		list.add_elem(line);
-	}
+		if (!isValidComment(line))
+		{
+			
+			std::cout << "Mistake! Incorrect comment format!" << std::endl;
+		}
+		else
+		{
+			out << line << '\n';
+			list.add_elem(line);
+		}
+	} while (true);
+	
 	
 	if (check)
 	{
 		
 		SetConsoleTextAttribute(hConsole, GREEN);
-		std::cout << "Исходный код программы:" << std::endl;
+		std::cout << "The source code of the program:" << std::endl;
 		SetConsoleTextAttribute(hConsole, YELLOW);
 		list.print();
 		std::cout << std::endl;
@@ -214,7 +216,7 @@ int main()
 		{
 			list.removeComments();
 			SetConsoleTextAttribute(hConsole, GREEN);
-			std::cout << "Обновленный код программы:" << std::endl;
+			std::cout << "Updated program code:" << std::endl;
 			SetConsoleTextAttribute(hConsole, YELLOW);
 			list.print();
 		}

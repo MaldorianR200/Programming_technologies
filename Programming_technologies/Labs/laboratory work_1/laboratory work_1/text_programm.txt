@@ -1,9 +1,7 @@
 int main()
 {
-// Переменные
-int a, b;
-/*
-	реализация программы
+// noeinvoi
+////d fer
+/* wnfifwef
 */
-a += b;
 }
