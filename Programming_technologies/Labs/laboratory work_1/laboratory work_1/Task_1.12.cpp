@@ -5,46 +5,46 @@
 #include <conio.h>
 #include <stdio.h>
 /*
-	Задача 12.
-Используя список, удалить из текста программы комментарии и поместить их в отдельный текстовый файл.
+	Task 12.
+Using the list, remove comments from the program text and place them in a separate text file.
 */
 
 
 bool checkGlob = true;
 bool isValidComment(const std::string& line) {
-	bool inQuotes = false; // флаг, указывающий на нахождение внутри кавычек
-	bool isValid = true; // флаг, указывающий на действительность комментария
+	bool inQuotes = false; // a flag indicating being inside quotation marks
+	bool isValid = true; // flag indicating the validity of the comment
 
 	for (int i = 0; i < line.length(); i++) {
-		// Поиск однострочного комментария
+		// Search for a one-line comment
 		if (line[i] == '/' && line[i + 1] == '/' && !inQuotes) {
 			return isValid;
 		}
-		// Поиск многострочного комментария
+		// Search for a multiline comment
 		else if (line[i] == '/' && line[i + 1] == '*' && line[i+2] == '/' && line[i+3] == '*' && !inQuotes)
 		{
-			isValid = false; // комментарий перекрывается, становится недействительным
+			isValid = false; // the comment overlaps, becomes invalid
 			break;
 			return isValid;
 		}
 		else if (line[i] == '/' && line[i + 1] == '*' && !inQuotes) {
-			// Проверка, что комментарий не перекрывается
+			// Checking that the comment does not overlap
 			for (int j = i + 2; j < line.length() - 1; j++) {
 				if (line[j] == '*' && line[j + 1] == '/') {
-					isValid = false; // комментарий перекрывается, становится недействительным
+					isValid = false; // the comment overlaps, becomes invalid
 					break;
 				}
 			}
 			return isValid;
 		}
 
-		// Проверка, внутри кавычек или нет
+		// Checking whether inside quotes or not
 		else if (line[i] == '\"') {
 			if (inQuotes) {
-				inQuotes = false; // находимся вне кавычек
+				inQuotes = false; // we are outside the quotation marks
 			}
 			else {
-				inQuotes = true; // находимся внутри кавычек
+				inQuotes = true; // we are inside the quotation marks
 			}
 		}
 	}
@@ -52,22 +52,22 @@ bool isValidComment(const std::string& line) {
 	return isValid;
 }
 
-class List		// создание класса: "Список"
+class List		// creating a class: "List"
 {
 public:
-	List() :head(nullptr) {}		// реализация конструктора
-	void add_elem(std::string data)		// добавление элемента в список
+	List() :head(nullptr) {}		// implementation of the constructor
+	void add_elem(std::string data)		//adding an item to a list
 	{
-		Node* newNode = new Node;		// создаём новый узел
+		Node* newNode = new Node;		// creating a new node
 		newNode->data = data;
 		newNode->next = nullptr;
 
-		if (head == nullptr)		// проверяем самый первый узел
-		{							// если он nullptr, то передаём ему новый узел
+		if (head == nullptr)		// check the very first node
+		{							// if it is null ptr, then we pass it a new node
 			head = newNode;
 		}
-		else						// иначе просто доходим до next == nulptr и  
-		{							// передаём next новый узел
+		else						// otherwise, we just get to next == nullptr and  
+		{							// passing next a new node
 			Node* temp = head;
 			while (temp->next != nullptr)
 			{
@@ -76,7 +76,7 @@ public:
 			temp->next = newNode;
 		}
 	}
-	void print()		// вывод в консоль
+	void print()		// output to the console
 	{
 		Node* temp = head;			
 		while (temp != nullptr)
@@ -85,14 +85,14 @@ public:
 			temp = temp->next;
 		}
 	}
-	void removeComments()			// удаление комментариев и записи их в файл
+	void removeComments()			// deleting comments and writing them to a file
 	{
-		std::ofstream file("Task_12.txt");		// создаём поток для записи
+		std::ofstream file("Task_12.txt");		// creating a stream for recording
 		Node* temp = head;
 		while (temp != nullptr)
 		{
 			std::string line = temp->data;
-			if (line.find("//") != std::string::npos)	// поиск подстроки
+			if (line.find("//") != std::string::npos)	// substring search
 			{
 				file << line << std::endl;
 				temp->data = line.substr(0, line.find("//"));
@@ -109,10 +109,10 @@ public:
 				while (temp->next != nullptr && temp->next->data.find("*/") == std::string::npos)
 				{
 					temp = temp->next;
-					file << temp->data << std::endl;	// запись строки в файл
+					file << temp->data << std::endl;	// writing a line to a file
 					temp->data = line.substr(0, line.find("/*"));
 				}
-				file << temp->next->data << std::endl;	// Запись закрывающейся строки */ в файл
+				file << temp->next->data << std::endl;	// Writing a closing line */ to a file
 
 				temp->data += temp->next->data.substr(temp->next->data.find("*/")+2);
 				temp->next = temp->next->next;
@@ -143,7 +143,7 @@ enum ColorConsole
 int main()
 {
 	setlocale(LC_ALL, "ru");
-	// получение дескриптора окна
+	// getting a window handle
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, GREEN);
 
@@ -152,7 +152,7 @@ int main()
 	bool check = 1;
 	std::string line;
 
-	std::ofstream out("text_programm.txt");		// файл для записи
+	std::ofstream out("text_programm.txt");		//file to write
 	if (!out.is_open())
 	{
 		SetConsoleTextAttribute(hConsole, RED);
@@ -176,7 +176,7 @@ int main()
 			std::cout << "Mistake! The file for recording did not open!" << std::endl;
 			return 0;
 		}
-	in.close();		// закрываем файл
+	in.close();		// closing the file
 	*/
 
 	
